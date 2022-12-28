@@ -14,8 +14,9 @@ driver.get(base_url)
 time.sleep(5)
 soup = BeautifulSoup(driver.page_source,'html5lib')
    
-url_list = [url['href'] for url in soup.find_all('a', href=True) if 
-        re.search("fifaplus/en/match-centre/match/.*",url['href'])]
+url_list = ['https://fifa.com'+url['href'] for url in 
+            soup.find_all('a', href=True) if 
+            re.search("fifaplus/en/match-centre/match/.*",url['href'])]
 
 #make columns
 team1 = []
