@@ -1,12 +1,21 @@
 #import modules
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time
-import pandas
+import time,pandas as pd,re
 
 #driver initialization
 driver = webdriver.Chrome()
 time.sleep(5)
+
+#get url list
+base_url = 'https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/'\
+       'qatar2022/scores-fixtures?'
+driver.get(base_url)
+time.sleep(5)
+soup = BeautifulSoup(driver.page_source,'html5lib')
+   
+url_list = [url['href'] for url in soup.find_all('a', href=True) if 
+        re.search("fifaplus/en/match-centre/match/.*",url['href'])]
 
 #make columns
 team1 = []
@@ -14,8 +23,8 @@ team2 = []
 possesion_team1 = []
 possesion_team2 = []
 
-#make urls
-url = 'https://www.fifa.com/fifaplus/en/match-centre/match/17/255711/285063/400235458'
+#
+url = url_list[0]
 
 #get url
 driver.get(url)
@@ -41,4 +50,7 @@ possesion_team1.append(soup.find_all('p',{'class':'ff-m-0 single-stat-'\
           'possession-component_numberPercentLeft__1zQaX'})[0].string)
 possesion_team2.append(soup.find_all('p',{'ff-m-0 single-stat-possession-'\
           'component_numberPercentRight__3IfVg'})[0].string)
-
+    
+#goals
+all = soup.find_all('p',{'class':'ff-m-0 ff-mr-20'})
+for el in all: print(el.string)
