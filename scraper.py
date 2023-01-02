@@ -75,5 +75,5 @@ for i,url in enumerate(url_list):
     team2_vals = soup.find_all('p',{'class':'ff-m-0 ff-ml-20'})
     for j,val in enumerate(df_columns_team2[2:]):
         df[val][i]=team2_vals[j].text
-        
+#export to file        
 df.to_csv('FIFA WORLD CUP QATAR 2022.csv')
