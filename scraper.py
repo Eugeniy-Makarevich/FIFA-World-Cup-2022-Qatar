@@ -20,36 +20,60 @@ url_list = ['https://fifa.com'+url['href'] for url in
 
 
 #import dataframe pattern 
-df = pd.read_csv('empty_df.csv')
+df = pd.read_csv('empty_df.csv',index_col = 0)
 
-#
-url = url_list[0]
+#main loop
+for i,url in enumerate(url_list):
 
-#get url
-driver.get(url)
-time.sleep(5)
+    #get url
+    driver.get(url)
+    time.sleep(8)
 
-#find STATS button and click it
-s = driver.find_element('xpath',"//*[contains(text(), 'STATS')]")
-driver.execute_script("arguments[0].click();",s)
-time.sleep(5)
+    #get OVERVIEW tab content
+    s = driver.find_element('xpath',"//*[contains(text(), 'OVERVIEW')]")
+    driver.execute_script("arguments[0].click();",s)
+    time.sleep(2)
+    soup = BeautifulSoup(driver.page_source,'html5lib')
 
-#make a soup
-soup = BeautifulSoup(driver.page_source,'html5lib')
+    #get items from OVERVIEW tab
+    overview = soup.find_all('div',
+                    {'class':'match-details-overview-info_info__2LEuH'})
+    df['date'][i] = overview[1].text.split(',')[0]
+    df['time'][i] = overview[1].text.split(',')[1]
+    df['city'][i] = overview[3].text
+    df['stadium'][i] = overview[2].text
+    df['referee'][i] = overview[4].text
+    df['attendance'][i] = overview[8].text
 
-#get values
-#teams:
-teams =soup.find_all('div',{'class':'match-stats-tab-component_teamName__'\
+    #get STATS tab content
+    s = driver.find_element('xpath',"//*[contains(text(), 'STATS')]")
+    driver.execute_script("arguments[0].click();",s)
+    time.sleep(2)
+    soup = BeautifulSoup(driver.page_source,'html5lib')
+
+    #get items from STATS tab
+    #teams:
+    teams =soup.find_all('div',{'class':'match-stats-tab-component_teamName__'\
                             '2D9h9'})
-team1.append(teams[0].string)
-team2.append(teams[1].string)
-
-#possesion
-possesion_team1.append(soup.find_all('p',{'class':'ff-m-0 single-stat-'\
-          'possession-component_numberPercentLeft__1zQaX'})[0].string)
-possesion_team2.append(soup.find_all('p',{'ff-m-0 single-stat-possession-'\
-          'component_numberPercentRight__3IfVg'})[0].string)
+    df['team1'][i] = teams[0].text
+    df['team2'][i] = teams[1].text
+    #possesion
+    df['possesion_team1'][i] = soup.find_all('p',{'class':'ff-m-0 single-stat-'\
+              'possession-component_numberPercentLeft__1zQaX'})[0].text
+    df['possesion_team2'][i] = soup.find_all('p',{'ff-m-0 single-stat-possession-'\
+              'component_numberPercentRight__3IfVg'})[0].text
+    #other    
+    df_columns_team1 =[value for value in df.columns.values
+                       if re.findall('.*team1',value)]
+    df_columns_team2 =[value for value in df.columns.values
+                       if re.findall('.*team2',value)]
     
-#goals
-all = soup.find_all('p',{'class':'ff-m-0 ff-mr-20'})
-for el in all: print(el.string)
+    team1_vals = soup.find_all('p',{'class':'ff-m-0 ff-mr-20'})
+    for j,val in enumerate(df_columns_team1[2:]):
+        df[val][i]=team1_vals[j].text
+    
+    team2_vals = soup.find_all('p',{'class':'ff-m-0 ff-ml-20'})
+    for j,val in enumerate(df_columns_team2[2:]):
+        df[val][i]=team2_vals[j].text
+        
+df.to_csv('FIFA WORLD CUP QATAR 2022.csv')

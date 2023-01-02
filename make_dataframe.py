@@ -1,11 +1,11 @@
 import pandas as pd
 df = pd.DataFrame(columns=
-             ['team1','team2','data','time','city','stadium','referee',
+             ['team1','team2','date','time','city','stadium','referee',
               'attendance','possesion_team1','possesion_team2',
-              'possesion in contest','goal_total_team1','goal_total_team2',
+              'goal_total_team1','goal_total_team2',
               'goal_conceded_team1',  'goal_conceded_team2',
               'goal_inside_penalty_area_team1', 'goal_inside_penalty_area_team2',
-              'goal_outside_penalty_area_team1', 'goal_outside_penalty_area_team1',
+              'goal_outside_penalty_area_team1', 'goal_outside_penalty_area_team2',
               'goal_assists_team1','goal_assists_team2','attempts_total_team1',
              'attempts_total_team2','attempts_on_target_team1',
              'attempts_on_target_team2','attempts_off_target_team1',
@@ -29,7 +29,7 @@ df = pd.DataFrame(columns=
              'receptions_between_midfield_and_defensive_lines_team1',
              'receptions_between_midfield_and_defensive_lines_team2',
              'receptions_behind_defensive_line_team1',
-             'receptions_behind_defensive_line_team2'
+             'receptions_behind_defensive_line_team2',
              'line_breaks_attempted_team1',
              'line_breaks_attempted_team2','line_breaks_completed_team1',
              'line_breaks_completed_team2','line_breaks_attempted_defensive_team1',
