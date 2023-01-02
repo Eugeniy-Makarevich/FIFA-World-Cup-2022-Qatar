@@ -1,7 +1,7 @@
 #import modules
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time,pandas as pd,re
+import time,re,pandas as pd
 
 #driver initialization
 driver = webdriver.Chrome()
@@ -17,6 +17,9 @@ soup = BeautifulSoup(driver.page_source,'html5lib')
 url_list = ['https://fifa.com'+url['href'] for url in 
             soup.find_all('a', href=True) if 
             re.search("fifaplus/en/match-centre/match/.*",url['href'])]
+
+
+
 
 #make columns
 team1 = []
@@ -34,7 +37,7 @@ time.sleep(5)
 #find STATS button and click it
 s = driver.find_element('xpath',"//*[contains(text(), 'STATS')]")
 driver.execute_script("arguments[0].click();",s)
-time.sleep(1)
+time.sleep(5)
 
 #make a soup
 soup = BeautifulSoup(driver.page_source,'html5lib')
