@@ -45,5 +45,5 @@ df = pd.DataFrame(columns=
              'penalties_scored_team2','goal_preventions_team1','goal_preventions_team2',
              'own_goals_team1','own_goals_team2','forced_turnovers_team1',
              'forced_turnovers_team2','defensive_pressures_applied_team1',
-             'defensive_pressures_applied_team2'])
+             'defensive_pressures_applied_team2'],index = range(64))
 df.to_csv('empty_df.csv')

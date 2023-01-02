@@ -19,13 +19,8 @@ url_list = ['https://fifa.com'+url['href'] for url in
             re.search("fifaplus/en/match-centre/match/.*",url['href'])]
 
 
-
-
-#make columns
-team1 = []
-team2 = []
-possesion_team1 = []
-possesion_team2 = []
+#import dataframe pattern 
+df = pd.read_csv('empty_df.csv')
 
 #
 url = url_list[0]
