@@ -2,6 +2,7 @@ import pandas as pd
 df = pd.DataFrame(columns=
              ['team1','team2','date','time','city','stadium','referee',
               'attendance','possesion_team1','possesion_team2',
+              'penalty_series_goals_team1', 'penalty_series_goals_team2',
               'goal_total_team1','goal_total_team2',
               'goal_conceded_team1',  'goal_conceded_team2',
               'goal_inside_penalty_area_team1', 'goal_inside_penalty_area_team2',

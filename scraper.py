@@ -27,12 +27,12 @@ for i,url in enumerate(url_list):
 
     #get url
     driver.get(url)
-    time.sleep(8)
-
+    time.sleep(5)
+    
     #get OVERVIEW tab content
     s = driver.find_element('xpath',"//*[contains(text(), 'OVERVIEW')]")
     driver.execute_script("arguments[0].click();",s)
-    time.sleep(2)
+    time.sleep(1)
     soup = BeautifulSoup(driver.page_source,'html5lib')
 
     #get items from OVERVIEW tab
@@ -44,11 +44,18 @@ for i,url in enumerate(url_list):
     df['stadium'][i] = overview[2].text
     df['referee'][i] = overview[4].text
     df['attendance'][i] = overview[8].text
+    
+    #get penalty series score
+    penalty_score =soup.find_all('span',{'class':'show-match-score_penaltie'\
+                                         'sScore__3O5O3 ff-px-16'})
+    if penalty_score:
+        df['penalty_series_goals_team1'][i] = penalty_score[0].text
+        df['penalty_series_goals_team2'][i] = penalty_score[1].text
 
     #get STATS tab content
     s = driver.find_element('xpath',"//*[contains(text(), 'STATS')]")
     driver.execute_script("arguments[0].click();",s)
-    time.sleep(2)
+    time.sleep(1)
     soup = BeautifulSoup(driver.page_source,'html5lib')
 
     #get items from STATS tab
@@ -69,11 +76,11 @@ for i,url in enumerate(url_list):
                        if re.findall('.*team2',value)]
     
     team1_vals = soup.find_all('p',{'class':'ff-m-0 ff-mr-20'})
-    for j,val in enumerate(df_columns_team1[2:]):
+    for j,val in enumerate(df_columns_team1[3:]):
         df[val][i]=team1_vals[j].text
     
     team2_vals = soup.find_all('p',{'class':'ff-m-0 ff-ml-20'})
-    for j,val in enumerate(df_columns_team2[2:]):
+    for j,val in enumerate(df_columns_team2[3:]):
         df[val][i]=team2_vals[j].text
 #export to file        
 df.to_csv('FIFA WORLD CUP QATAR 2022.csv')
