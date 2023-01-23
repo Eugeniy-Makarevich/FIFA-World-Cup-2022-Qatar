@@ -10,4 +10,4 @@ List of content:
 + QATAR 2022.pbix - match visualization  
 
 
-[Not quite study][Python]
+[Not quite study][Python][Power BI]
