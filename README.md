@@ -1,6 +1,6 @@
 # FIFA-World-Cup-2022-Qatar  
 ## FIFA.COM web scraping   
-### List of content:    
+### List of contents:    
 + scraper.py - main script for scrapping info about FIFA World Cup 2022 Qatar matches;  
 + make_dataframe.py - auxiliary script;  
 + empty_df.csv -  result of running  make_dataframe.py, contains dataframe pattern;  
